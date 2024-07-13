@@ -32,31 +32,26 @@
             return $Usuario;
         }
 
-        public function inserir() {
+        public function cadastrar() {
 
-            $categoria = $_POST['txtCategoria'];
-            $nome = $_POST['txtNome'];
-            $descricao = $_POST['txtDescricao'];
-            $valor = $_POST['txtValor'];
+            $usuarioModel = new usuario();
+
+            $usuarioModel->setNomeUsuario($_POST['nomeUsuario']);
+            $usuarioModel->setEmailUsuario($_POST['emailUsuario']);
+            $usuarioModel->setLoginUsuario($_POST['loginUsuario']);
+            $usuarioModel->setSenhaUsuario($_POST['senhaUsuario']);
+            $usuarioModel->setTelefoneCelular($_POST['telefoneCelular']);
+            $usuarioModel->setAtivo($_POST['ativo']);
            
-            if(strlen( $categoria ) == 0 || strlen( $nome ) == 0 || strlen( $descricao ) == 0 || strlen( $valor ) == 0  ){
-                 header( "Location: ../view/Usuarios.php?campoVazio");
-            }elseif($_SERVER['REQUEST_METHOD'] === 'POST') {
-                
-                $Usuario = new Usuario();
-                $Usuario->inserir($categoria, $nome, $descricao, $valor);
-                header('Location: ../view/Usuarios.php?nome='.$nome);
-            } else {
-                header( "Location: ../view/Usuarios.php?erro");
-            }
+            $usuarioModel->cadastrar($usuarioModel);
+                header('Location: ../view/logado.php?cadastro=ok');
+
         }
 
-        public function editar($Usuario, $Id) {
-            
-                $Usuario = new Usuario();
-                $Usuario->editar($Usuario, $Id);
-                header( "Location: ../view/logado.php?editado=ok");
-       
+        public function editar($usuario) {
+                $usuarioModel = new usuario();
+                $usuarioModel->editar($usuario, $usuario->getIdUsuario());
+                header("Location: ../view/logado.php?edit=ok");
         }
 
         
@@ -64,7 +59,7 @@
             $id = $_GET['id'];
             $Usuario = new Usuario();
             $Usuario->excluir($id);
-            header( "Location: ../view/Usuarios.php?excluido");
+            header( "Location: ../view/logado.php?excluido");
         }
         
         public function handleRequest() {
@@ -76,23 +71,19 @@
             }
 			
 			
-            if (isset($_GET['action']) && $_GET['action'] == 'inserirUsuario') {
-                $this->inserir();
+            if (isset($_GET['action']) && $_GET['action'] == 'cadastrarUsuario') {
+                $this->cadastrar();
             }
-            if (isset($_GET['action']) && $_GET['action'] == 'editarUsuario'){
-                
-			$id = $_POST['idUsuario'];
-			
-			$usuario = new Usuario();	
-			$usuario->setNomeUsuario($_POST['nomeUsuario']);
-			$usuario->setEmailUsuario($_POST['emailUsuario']);
-			$usuario->setLoginUsuario($_POST['loginUsuario']);
-			$usuario->setSenhaUsuario($_POST['senhaUsuario']);
-			$usuario->setTelefoneCelular($_POST['telefoneCelular']);
-			$usuario->setAtivo($_POST['ativo']);
-			
-			$this->editar($usuario, $id);
-			
+            if (isset($_GET['action']) && $_GET['action'] == 'editarUsuario') {
+                $usuario = new usuario();
+                $usuario->setIdUsuario($_POST['meuid']);
+                $usuario->setNomeUsuario($_POST['nomeUsuario']);
+                $usuario->setEmailUsuario($_POST['emailUsuario']);
+                $usuario->setLoginUsuario($_POST['loginUsuario']);
+                $usuario->setSenhaUsuario($_POST['senhaUsuario']);
+                $usuario->setTelefoneCelular($_POST['telefoneCelular']);
+                $usuario->setAtivo($_POST['ativo']);
+                $this->editar($usuario);
             }
             if (isset($_GET['action']) && $_GET['action'] == 'excluirUsuario') {
                 $this->excluir();

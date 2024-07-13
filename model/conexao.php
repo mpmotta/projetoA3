@@ -3,7 +3,7 @@ abstract class Conexao {
     private $servidor = 'localhost';
     private $user = 'root';
     private $pass = '';
-    private $banco = 'gestao';
+    private $banco = 'atendimentos';
     protected $conn;
 
     public function __construct() {
