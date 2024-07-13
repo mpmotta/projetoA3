@@ -39,7 +39,7 @@
             $usuarioModel->setNomeUsuario($_POST['nomeUsuario']);
             $usuarioModel->setEmailUsuario($_POST['emailUsuario']);
             $usuarioModel->setLoginUsuario($_POST['loginUsuario']);
-            $usuarioModel->setSenhaUsuario($_POST['senhaUsuario']);
+            $usuarioModel->setSenhaUsuario(md5($_POST['senhaUsuario']));
             $usuarioModel->setTelefoneCelular($_POST['telefoneCelular']);
             $usuarioModel->setAtivo($_POST['ativo']);
            

@@ -15,58 +15,10 @@
 </head>
 
 <body class="bg-secondary">
-    <div class="container bg-light p-0">
-        <h1 class="bg-info-subtle text-center p-2">Lista de Usuários</h1>
-        <section class="p-2">
-            <table class="table table-striped">
-                <tr>
-                    <th>ID</th>
-                    <th>NOME</th>
-                    <th>EMAIL</th>
-                    <th>LOGIN</th>
-                    <th>CELULAR</th>
-                    <th>ATIVO</th>
-                    <th>EDITAR</th>
-                    <th>EXCLUIR</th>
-                </tr>
-                <?php
-                        require_once('../controller/usuarioController.php');
-                        $Usuario = new Usuario(); 
-                        $consulta = $Usuario->consulta();	
-                        foreach($consulta as $linha){
-                            $idUsuario = $linha['idUsuario'];
-                            $nomeUsuario = $linha['nomeUsuario'];
-                            $emailUsuario = $linha['emailUsuario'];
-                            $loginUsuario = $linha['loginUsuario'];
-                            $telefoneCelular = $linha['telefoneCelular'];
-                            $ativo = ($linha['ativo'] == 'S') ? 'SIM' : 'NÃO';
-                        echo"
-                        <tr>
-                            <td>$idUsuario</td> 
-                            <td>$nomeUsuario</td>
-                            <td>$emailUsuario</td>
-                            <td>$loginUsuario</td>
-                            <td>$telefoneCelular</td>
-                            <td>$ativo</td>
-                            
-                            <td><a class='btn btn-success' href='editarUsuario.php?id=$idUsuario'>Editar</a></td>
-
-                            <td><a class='btn btn-danger' onclick='confirmDelete($idUsuario)' href='#'>Excluir</a></td>
-
-                        </tr>    
-                        ";
-                    }
-                ?>
-                <tr>
-                    <td colspan="7">
-                        <a class="btn btn-primary" href="cadastrarUsuario.php">CADASTRAR</a>
-                    </td>
-                    <td>
-                        <a class="btn btn-dark" onclick="confirmSair()" href="#">SAIR</a>
-                    </td>
-                </tr>
-            </table>
-        </section>
+    <div class="container bg-light p-3">
+        <h1>Atendimentos</h1>
+        <a href="usuarios.php" class="btn btn-primary">Gerenciar Usuários</a>
+        <a href="atendimentos.php" class="btn btn-primary">Gerenciar Atendimentos</a>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <?php
@@ -101,7 +53,8 @@
             confirmButtonText: "Sim, apagar!"
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = `../controller/usuarioController.php?id=${id}&action=excluirUsuario`;
+                window.location.href =
+                    `../controller/usuarioController.php?id=${id}&action=excluirUsuario`;
             }
         });
     }
